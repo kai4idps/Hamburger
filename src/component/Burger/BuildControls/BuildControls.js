@@ -1,5 +1,5 @@
 import React from "react"
-import classes from "./BuildControl.module.css"
+import classes from "./BuildControls.module.css"
 import BuildControl from "./BuildControl/BuildControl"
 
 const controls = [
@@ -9,12 +9,28 @@ const controls = [
   { label: "meat", type: "meat" }
 ]
 
-const BuildControls = () => {
+const BuildControls = props => {
   return (
     <div className={classes.BuildControls}>
+      <h1>current price:{props.price.toFixed(2)}</h1>
+
       {controls.map(control => (
-        <BuildControl key={control.label} label={control.label} />
+        <BuildControl
+          key={control.label}
+          label={control.label}
+          type={control.type}
+          added={() => props.ingredientAdded(control.type)}
+          removed={() => props.ingredientRemoved(control.type)}
+          disabled={props.purchaseable[control.type]}
+        />
       ))}
+      <button
+        className={classes.OrderButton}
+        disabled={!props.purchaseable}
+        onClick={props.ordered}
+      >
+        ORDER NOW
+      </button>
     </div>
   )
 }
