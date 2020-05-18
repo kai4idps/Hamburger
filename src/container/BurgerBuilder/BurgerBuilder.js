@@ -1,16 +1,16 @@
 import React, { useState } from "react"
-import Auxx from "../../hoc/Auxx"
+import Auxx from "../../hoc/Auxx/Auxx"
 import Burger from "../../component/Burger/Burger"
 import BuildControls from "../../component/Burger/BuildControls/BuildControls"
 import Modal from "../../component/UI/Modal/Modal"
 import OrderSumary from "../../component/Burger/orderSummary/orderSummary"
 
-const BurgerBuilder = props => {
+const BurgerBuilder = (props) => {
   const ingredients = {
     salad: 0,
     bacon: 0,
     cheese: 0,
-    meat: 0
+    meat: 0,
   }
 
   const [price, setPrice] = useState(4)
@@ -23,7 +23,7 @@ const BurgerBuilder = props => {
 
   const updatePurchaseState = () => {
     const sum = Object.keys(changeIngredient)
-      .map(key => {
+      .map((key) => {
         return changeIngredient[key]
       })
       .reduce((sum, el) => {
@@ -33,7 +33,7 @@ const BurgerBuilder = props => {
     console.log(sum)
     sum > 0 ? setPurchaseable(true) : setPurchaseable(false)
   }
-  const addIngredientHandler = type => {
+  const addIngredientHandler = (type) => {
     const oldCount = ingredient[type]
     const updateCount = oldCount + 1
 
@@ -45,7 +45,7 @@ const BurgerBuilder = props => {
     setIngredient(changeIngredient)
     updatePurchaseState()
   }
-  const removeIngredientHandler = type => {
+  const removeIngredientHandler = (type) => {
     const oldCount = ingredient[type]
     const updateCount = oldCount - 1
     if (oldCount <= 0) {
