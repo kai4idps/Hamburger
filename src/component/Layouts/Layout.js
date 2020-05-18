@@ -2,6 +2,8 @@ import React from "react"
 import Auxx from "../../hoc/Auxx"
 
 const Layout = props => {
+  console.log(props)
+
   return (
     <>
       <Auxx>

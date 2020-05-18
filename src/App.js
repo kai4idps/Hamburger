@@ -10,7 +10,7 @@ function App() {
       <Layout>
         <BurgerBuilder> </BurgerBuilder>
       </Layout>
-      <button className={ButtonStyle.blue}>blue</button>
+      {/* <button className={ButtonStyle.blue}>blue</button> */}
     </div>
   )
 }
