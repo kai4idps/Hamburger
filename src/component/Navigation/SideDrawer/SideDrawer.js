@@ -6,9 +6,7 @@ import classes from "./SideDrawer.module.css"
 import Background from "../../UI/Background/Background"
 import Aux from "../../../hoc/Auxx/Auxx"
 
-const sideDrawer = (props) => {
-  console.log(props)
-
+const sideDrawer = props => {
   let attachedClasses = [classes.SideDrawer, classes.Close]
   if (props.open) {
     attachedClasses = [classes.SideDrawer, classes.Open]
