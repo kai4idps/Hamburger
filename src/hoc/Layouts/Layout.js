@@ -4,16 +4,13 @@ import ToolBar from "../../component/Navigation/Toolbar/Toolbar"
 import SideDrawer from "../../component/Navigation/SideDrawer/SideDrawer"
 
 import classes from "./Layout.module.css"
-import sideDrawer from "../../component/Navigation/SideDrawer/SideDrawer"
 
-const Layout = (props) => {
+const Layout = props => {
   const [showSlideDraw, setShowSlideDraw] = useState(false)
   const sideDrawerClosedHandler = () => {
     setShowSlideDraw(false)
   }
-  const sideDrawerOpenHandler = () => {
-    setShowSlideDraw(true)
-  }
+
   const sideDrawerToggleHandler = () => {
     setShowSlideDraw(!showSlideDraw)
   }

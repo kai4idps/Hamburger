@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import Modal from "../../component/UI/Modal/Modal"
 import Auxx from "../Auxx/Auxx"
-import axios from "axios"
 
 const WithErrorHandler = (WrappedComponent, axios) => {
   function CheckRequests(props) {

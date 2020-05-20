@@ -66,28 +66,41 @@ const BurgerBuilder = props => {
   }
   const purchasingContinueHandle = () => {
     // console.log("繼續購物")
-    setLoading(true)
-    const order = {
-      ingredients: ingredient,
-      price: price,
-      customer: {
-        name: "LEE",
-        email: "test @gmail.com",
-        deliveryMethod: "fatest"
-      }
+    // setLoading(true)
+    // const order = {
+    //   ingredients: ingredient,
+    //   price: price,
+    //   customer: {
+    //     name: "LEE",
+    //     email: "test @gmail.com",
+    //     deliveryMethod: "fatest"
+    //   }
+    // }
+    // axios
+    //   .post("/orders.json", order)
+    //   .then(response => {
+    //     console.log(response)
+    //     setPurchasing(false)
+    //     setLoading(false)
+    //   })
+    //   .catch(error => {
+    //     setPurchasing(false)
+    //     setLoading(false)
+    //     console.log(error)
+    //   })
+    const queryParams = []
+    //傳到contactData.js
+    for (let i in ingredient) {
+      queryParams.push(
+        encodeURIComponent(i) + "=" + encodeURIComponent(ingredient[i])
+      )
     }
-    axios
-      .post("/orders.json", order)
-      .then(response => {
-        console.log(response)
-        setPurchasing(false)
-        setLoading(false)
-      })
-      .catch(error => {
-        setPurchasing(false)
-        setLoading(false)
-        console.log(error)
-      })
+    queryParams.push("price", price)
+    const queryString = queryParams.join("&")
+    props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString
+    })
   }
   //
   let orderSummary
