@@ -7,11 +7,12 @@ import classes from "./ContactData.module.css"
 
 const ContactData = props => {
   console.log(props)
+  console.log(props.ingredients)
 
   const formData = { name: "", email: "", age: "" }
   const [loading, setLoading] = useState(false)
-  const [ingredient, setIngredient] = useState(null)
-  const [price, setPrice] = useState(props.price)
+  const ingredient = props.ingredients
+  const price = props.price
 
   const orderHandler = event => {
     event.preventDefault()
@@ -26,6 +27,8 @@ const ContactData = props => {
         deliveryMethod: "fatest"
       }
     }
+    console.log(order)
+
     axios
       .post("/orders.json", order)
       .then(response => {

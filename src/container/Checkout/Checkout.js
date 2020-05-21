@@ -7,7 +7,7 @@ import ContactData from "./ContactData/ContactData"
 const Checkout = props => {
   console.log(props)
 
-  const ingredients = { salad: 1, meat: 1, cheese: 1, bacon: 1 }
+  const ingredients = { salad: 1, meat: 0, cheese: 0, bacon: 0 }
   const [ingredient, setIngredient] = useState(ingredients)
   const [price, setPrice] = useState(0)
 
@@ -24,15 +24,20 @@ const Checkout = props => {
     //來自burgerbuilder.js
     for (let param of query.entries()) {
       console.log(param)
+      console.log(param[0], param[1])
+
       if (param[0] === "price") {
-        setPrice(param[1])
+        console.log("param[1]", param[0])
+
+        setPrice(param)
       } else {
         ingredients[param[0]] = +param[1]
       }
     }
 
     setIngredient(ingredients)
-  }, [props])
+    console.log(ingredients)
+  }, [])
 
   return (
     <div>

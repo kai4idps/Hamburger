@@ -95,8 +95,15 @@ const BurgerBuilder = props => {
         encodeURIComponent(i) + "=" + encodeURIComponent(ingredient[i])
       )
     }
-    queryParams.push("price", price)
+    console.log("price", price)
+    console.log(queryParams)
+
+    queryParams.push(`price=${price}`)
+    console.log(queryParams)
+
     const queryString = queryParams.join("&")
+    console.log(queryString)
+
     props.history.push({
       pathname: "/checkout",
       search: "?" + queryString
@@ -108,6 +115,8 @@ const BurgerBuilder = props => {
   //
   let burger = error ? <p>Ingredients can't be loaded!</p> : <Spinner />
   if (ingredient) {
+    console.log(ingredient)
+
     burger = (
       <Auxx>
         <Burger ingredients={ingredient} />
