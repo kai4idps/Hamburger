@@ -1,13 +1,19 @@
 import React, { useState } from "react"
+import { connect } from "react-redux"
+
 import Button from "../../../component/UI/Button/Button"
 import axios from "../../../axiosOrder"
 import Spinner from "../../../component/UI/spinner/Spinner"
 import Input from "../../../component/UI/Input/Input"
 import classes from "./ContactData.module.css"
 
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler"
+import * as actions from "../../../store/actions/index"
+import { updateObject, checkValidity } from "../../../shareLogic/utility"
+
 const ContactData = props => {
   console.log(props)
-  console.log(props.ingredients)
+  console.log(props.price)
 
   const formData = {
     name: {
@@ -68,38 +74,52 @@ const ContactData = props => {
     const order = {
       ingredients: ingredient,
       price: price,
-      orderData: formData
+      orderData: formData,
+      userId: props.userId
     }
     console.log(order)
-
-    axios
-      .post("/orders.json", order)
-      .then(response => {
-        console.log(response)
-        setLoading(false)
-      })
-      .catch(error => {
-        setLoading(false)
-        console.log(error)
-      })
+    props.onOrderBurger(order, props.token)
+    // axios
+    //   .post("/orders.json", order)
+    //   .then(response => {
+    //     console.log(response)
+    //     setLoading(false)
+    //   })
+    //   .catch(error => {
+    //     setLoading(false)
+    //     console.log(error)
+    //   })
   }
   //inputChange
   const inputChangedHandler = (event, inputIdentifier) => {
     console.log(event.target.value)
 
-    const updatedOrderForm = {
-      ...orderForm
-    }
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier]
-    }
-    updatedFormElement.value = event.target.value
-    updatedFormElement.valid = checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation
-    )
-    updatedFormElement.touched = true
+    // const updatedOrderForm = {
+    //   ...orderForm
+    // }
+    // const updatedFormElement = {
+    //   ...updatedOrderForm[inputIdentifier]
+    // }
+    const updatedFormElement = updateObject(orderForm, {
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        orderForm[inputIdentifier].validation
+      ),
+      touched: true
+    })
+    const updatedOrderForm = updateObject(orderForm, {
+      [inputIdentifier]: updatedFormElement
+    })
+
+    // updatedFormElement.value = event.target.value
+    // updatedFormElement.valid = checkValidity(
+    //   updatedFormElement.value,
+    //   updatedFormElement.validation
+    // )
+    // updatedFormElement.touched = true
     updatedOrderForm[inputIdentifier] = updatedFormElement
+    console.log(updatedOrderForm)
 
     let formIsValid = true
     //以驗證過正確格式
@@ -111,39 +131,7 @@ const ContactData = props => {
     setFormIsValid(formIsValid)
     // this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid })
   }
-  //檢查欄位
-  const checkValidity = (value, rules) => {
-    console.log(rules)
 
-    let isValid = true
-    if (!rules) {
-      return true
-    }
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid
-    }
-
-    if (rules.isEmail) {
-      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-      isValid = pattern.test(value) && isValid
-    }
-
-    if (rules.isNumeric) {
-      const pattern = /^\d+$/
-      isValid = pattern.test(value) && isValid
-    }
-
-    return isValid
-  }
   //動態產生表單
   const formElementsArray = []
   for (let key in orderForm) {
@@ -171,7 +159,7 @@ const ContactData = props => {
       </Button>
     </form>
   )
-  if (loading) {
+  if (props.loading) {
     form = <Spinner />
   }
   return (
@@ -181,4 +169,24 @@ const ContactData = props => {
   )
 }
 
-export default ContactData
+const mapStateToProps = state => {
+  return {
+    ings: state.burgerBuilder.ingredients,
+    pricee: state.burgerBuilder.totalPrice,
+    loading: state.order.loading,
+    token: state.auth.token,
+    userId: state.auth.userId
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrderBurger: (orderData, token) =>
+      dispatch(actions.purchaseBurger(orderData, token))
+  }
+}
+// export default ContactData
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios))

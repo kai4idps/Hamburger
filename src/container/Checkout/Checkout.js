@@ -23,13 +23,14 @@ const Checkout = props => {
     const ingredients = {}
     //來自burgerbuilder.js
     for (let param of query.entries()) {
-      console.log(param)
       console.log(param[0], param[1])
 
       if (param[0] === "price") {
         console.log("param[1]", param[0])
 
-        setPrice(param)
+        console.log(param)
+        setPrice(param[1])
+        console.log(price)
       } else {
         ingredients[param[0]] = +param[1]
       }
@@ -38,6 +39,7 @@ const Checkout = props => {
     setIngredient(ingredients)
     console.log(ingredients)
   }, [])
+  console.log(price)
 
   return (
     <div>

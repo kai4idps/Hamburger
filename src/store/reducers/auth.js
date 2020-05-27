@@ -1,6 +1,6 @@
 import React from "react"
 import * as actionTypes from "../actions/actionTypes"
-import { updateObject } from "../utility"
+import { updateObject } from "../../shareLogic/utility"
 
 //處理這些身份驗證操作和我的身份驗證狀態
 const initialState = {
