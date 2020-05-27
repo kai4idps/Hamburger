@@ -7,7 +7,7 @@ import axios from "../../axiosOrder"
 import * as actions from "../../store/actions/index"
 import Spinner from "../../component/UI/spinner/Spinner"
 
-const Orders = props => {
+export const Orders = props => {
   console.log(props)
 
   useEffect(() => {
